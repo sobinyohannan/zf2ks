@@ -1,0 +1,20 @@
+<p> Add new position </p>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action',$this->url('admin',array('action' => 'addPosition')));
+    $form->setAttribute('enctype','multipart/form-data');
+    $form->prepare();
+    //var_dump($form->get('activate'));die();
+    echo $this->form()->openTag($form);    
+    echo $this->formHidden($form->get('id'));
+    echo $this->formRow($form->get('work_name'));echo '<br/>';
+    echo $this->formRow($form->get('description_small'));echo '<br/>';
+    echo $this->formRow($form->get('description_big'));echo '<br/>';
+    echo $this->formRow($form->get('tips'));echo '<br/>';
+    echo $this->formRow($form->get('work_image_list'));echo '<br/>';
+    echo $this->formRow($form->get('work_video_list'));echo '<br/>';    
+    echo $this->formRow($form->get('work_rate'));echo '<br/>';
+    echo $this->formRow($form->get('isactive'));echo '<br />';
+    echo $this->formSubmit($form->get('submit'));
+    echo $this->form()->closeTag($form);
+?>

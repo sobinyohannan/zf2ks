@@ -1,0 +1,1 @@
+ALTER TABLE `ks_workouts` CHANGE `work_image_list` `work_image_list` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;

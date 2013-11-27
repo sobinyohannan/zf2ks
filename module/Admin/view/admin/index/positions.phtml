@@ -1,0 +1,40 @@
+<?php
+/*
+ * Template : positions main page
+ * 
+ */
+?>
+<p> Positions </p>
+<div>
+    <a href="<?php echo $this->url('admin', array('action' => 'addPosition'));?>">Add New Position </a>
+    <!--<a href="<?php echo $this->url('admin', array('action' => 'addPosition'));?>">Add New Position </a> |
+    <a href="<?php echo $this->url('admin', array('action' => 'addPosition'));?>">Add New Position </a> -->
+</div>
+<table style="border:#269abc solid thin">
+
+    <tbody><tr><th>#</th><th>Exercise</th>
+
+    <!-- <th>Beginners</th><th>Advanced</th><th>Professional</th> -->
+
+            <th>Edit</th><th>Delete</th>
+
+    <!-- <th>Languages</th> -->
+
+        </tr>
+        <?php $i=1;foreach ($positions as $p) { ?>
+            <tr style="height:40px; padding-left: 10px;">
+                <td class="tdStyle"><?php echo $i++;?></td>
+                <td class="tdStyle"><?php echo $p->work_name; ?></td>
+<!--                <td class="tdStyle"> <a href="javascript:void(0)" onclick="editfun(<?php echo $p->id;?>);">-->
+                    <td class="tdStyle"> <a href="<?php echo $this->basePath().'/admin/editPosition/'.$p->id;?>");">
+                        <img src="<?php echo $this->basePath() .'/img/edit.jpg';?>"></a>
+                </td>
+                <!--<td class="tdStyle"> <a href="javascript:void(0)" onclick="deletefun(<?php echo $p->id;?>);">-->
+                <td class="tdStyle"> <a href="<?php echo $this->basePath().'/admin/deletePosition/'.$p->id;?>");">
+                        <img src="<?php echo $this->basePath() .'/img/delete.jpg';?>"></a>
+                </td>
+            </tr>
+        <?php } ?>        
+    </tbody>
+</table>
+

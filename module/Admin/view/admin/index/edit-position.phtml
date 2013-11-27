@@ -1,0 +1,40 @@
+<!-- Edit position template -->
+<?php
+    //print_r($position);die();
+    
+    $form = $this->form;
+    $position = $this->position;
+    //var_dump($position);
+    $form->setAttribute('action',$this->url('admin',array('action' => 'editPosition','id' => $this->id)));
+    $form->setAttribute('enctype','multipart/form-data');
+    $form->prepare();
+    //var_dump($form->get('activate'));die();
+    echo $this->form()->openTag($form);    
+    echo $this->formHidden($form->get('id'));
+    echo $this->formRow($form->get('work_name'));echo '<br/>';
+    echo $this->formRow($form->get('description_small'));echo '<br/>';
+    echo $this->formRow($form->get('description_big'));echo '<br/>';
+    echo $this->formRow($form->get('tips'));echo '<br/>';?>
+    <label>
+        <span>Existing Image </span><img src="<?php echo $this->basePath().'/uploads/admin/'.$position->work_image_list;?>" alt="No Image" width="90" height="90"/>
+    </label>
+    <br />
+    <?php
+    echo $this->formRow($form->get('work_image_list'));echo '<br/>';
+    ?>
+    <label>
+        <span>Existing Video </span><?php echo 'Test'.$position->work_video_list;?>
+        <video controls="" height="240" width="320">
+              <source src="<?php echo $this->basePath().'/uploads/admin/'.$position->work_video_list;?>" type="video/ogg">
+              <!--<source src="http://clips.vorwaerts-gmbh.de/VfE.ogv" type="video/ogg">-->
+	</video>    	
+    </label>
+    <br />
+    <?php
+    echo $this->formRow($form->get('work_video_list'));echo '<br/>';    
+    echo $this->formRow($form->get('work_rate'));echo '<br/>';
+    echo $this->formRow($form->get('isactive'));echo '<br />';
+    echo $this->formSubmit($form->get('submit'));
+    echo $this->form()->closeTag($form);
+?>
+

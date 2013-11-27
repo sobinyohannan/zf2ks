@@ -1,0 +1,25 @@
+<?php
+    /*
+     * Login Page Template
+     */
+    $form = $this->form;
+    $form->setAttribute('action',$this->url('admin',array('action' => 'login')));
+    $form->prepare();
+    //var_dump($form->get('remember-me'));die();
+    echo $this->form()->openTag($form);
+    echo $this->formHidden($form->get('id'));
+    echo $this->formRow($form->get('username'));echo '<br/>';
+    echo $this->formRow($form->get('password'));echo '<br/>';
+    //$chk = new \zend\Form\Element\Checkbox($form->get('remember-me'));
+    echo $this->formCheckbox($form->get('remember-me'));echo '<br/>';
+    echo $this->formSubmit($form->get('submit'));echo '<br/>';
+    echo $this->form()->closeTag($form);
+    
+    if(isset($this->messages)){
+        foreach($this->messages as $m) {
+            echo '<p>'.$m.'</p>';
+        }
+    }
+?>
+
+    

@@ -1,0 +1,30 @@
+<?php
+    /*
+     * Template For : Delete Page (Admin\IndexController\deletePositionAction)     * 
+     */
+?>
+
+<?php
+ 
+
+ $title = 'Delete Position';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <p>Are you sure that you want to delete
+     '<?php echo $this->escapeHtml($position->work_name); ?>'?
+ </p>
+ <?php
+ $url = $this->url('admin', array(
+     'action' => 'deletePosition',
+     'id'     => $this->id,
+ ));
+ ?>
+ <form action="<?php echo $url; ?>" method="post">
+ <div>
+     <input type="hidden" name="id" value="<?php echo (int) $position->id; ?>" />
+     <input type="submit" name="del" value="Yes" />
+     <input type="submit" name="del" value="No" />
+ </div>
+ </form>
