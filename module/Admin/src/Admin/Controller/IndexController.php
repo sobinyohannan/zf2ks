@@ -1,6 +1,6 @@
 <?php
 /**
- * Desc : Admin Index Controller
+ * @Class : Admin Index Controller
  * Author : Sobin
  * Date   : 21-11-2013
  * 
@@ -20,7 +20,10 @@ use Zend\Validator\File\Size;
 
 class IndexController extends AbstractActionController
 {
-    // Get Positions Table
+    /*
+     *  Get Positions Table
+     *  Author  : Sobin
+     */
     public function getPositionTable() {
         $sm =   $this->getServiceLocator();
         try{            
@@ -31,21 +34,33 @@ class IndexController extends AbstractActionController
         }
         return $posTable;
     }
-    // Check authenticated and if true get the authentication identity
+    
+    /*
+     *  Check authenticated and if true get the authentication identity
+     *  Author  : Sobin
+     */
     public function getAuthIdentity() {
         if (! $this->getServiceLocator()->get('AuthService')->hasIdentity()){
-            return $this->redirect()->toRoute('auth',array('action' => 'login'));
+            return $this->redirect()->toRoute('admin',array('action' => 'login'));
         } 
         return $this->getServiceLocator()->get('AuthService')->hasIdentity();
     }
-    // Admin Index Page
+    
+    /*
+     *  Admin Index Page
+     *  Author  : Sobin
+     */
     public function indexAction()
     {
         $auth = $this->getAuthIdentity();
         $this->layout()->auth = $auth;
         return new ViewModel();
     }
-    // Positions Index Page
+    
+    /*
+     *  Positions Index Page
+     *  Author  : Sobin
+     */
     public function positionsAction() {
         $auth = $this->getAuthIdentity();
         $this->layout()->auth = $auth;
@@ -53,7 +68,11 @@ class IndexController extends AbstractActionController
         $return['positions'] = $positions;
         return $return;
     }
-    // Handle uploading
+    
+    /*
+     *  Handle uploading
+     *  Author  : Sobin
+     */
     public function uploadFile($file,$adapter) {
         $name = $file['name'];
         $size = new Size(array('min' => 2));
@@ -73,17 +92,24 @@ class IndexController extends AbstractActionController
                 echo 'Not uploaded';
                 return false;
             }
-        }
-        //exit;
+        }        
     }
-    // Set Flash Message
+    
+    /*
+     *  Set Flash Message
+     *  Author  : Sobin
+     */
     function setFlashMessage($message) {
         
         $this->flashMessenger()->clearCurrentMessages();
         $this->flashMessenger()->addMessage($message);        
         return $this->flashMessenger()->getCurrentMessages();        
     }
-    // Admin Login Page
+    
+    /*
+     *  Admin Login Page
+     *  Author  : Sobin
+     */
     public function loginAction() {
         if($this->getServiceLocator()->get('AuthService')->hasIdentity()) {
            $this->redirect()->toRoute('admin',array('action' => 'index'));
@@ -133,7 +159,11 @@ class IndexController extends AbstractActionController
        $this->layout('layout/login');
        return $view;
     }
-    // Add new position
+    
+    /*
+     *  Add new position
+     *  Author  : Sobin
+     */
     public function addPositionAction() {
         $auth = $this->getAuthIdentity();
         $this->layout()->auth = $auth;
@@ -187,7 +217,10 @@ class IndexController extends AbstractActionController
         return $return;
     }
     
-    // Edit position page
+    /*
+     *  Edit position page
+     *  Author  : Sobin
+     */
     public function editPositionAction() {        
         $pos_id = (int) $this->params()->fromRoute('id',0);
         // Redirect if Id missing        
@@ -268,7 +301,10 @@ class IndexController extends AbstractActionController
         );
     }
     
-    // Delete a position
+    /*
+     *  Delete a position
+     *  Author  : Sobin
+     */
     public function deletePositionAction() {
         // check Id param set, if not redirect
         $pos_id = (int) $this->params()->fromRoute('id',0);
@@ -295,7 +331,10 @@ class IndexController extends AbstractActionController
         return $view;
     }
     
-    // Logout
+    /*
+     *  Amin User Logout
+     *  Author  : Sobin
+     */
     public function logoutAction() {
             
        $this->getServiceLocator()->get('AuthService')->clearIdentity();

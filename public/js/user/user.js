@@ -22,6 +22,8 @@ function pauseVideo(id) {
 }
 
 $(function(){
+    
+    $('.container').css('max-width','1000px');
     /*
     * @method  : Handle play button click from user home
     * Author   : Sobin
@@ -38,6 +40,17 @@ $(function(){
             $('#play-status'+id).val("0");
             $(this).val('Play');
         }
+    });
+    
+    /*
+     * Handle Play in popup link click     * 
+     */
+    $('.play-popup').click(function(){
+        var id = $(this).attr('id');
+        var content = $('#videotile'+id).html();        
+        //$('.videopopup').html(content);
+        $('.videopopup').colorbox({html:content});
+        $('.videopopup').show();
     });
 });
 

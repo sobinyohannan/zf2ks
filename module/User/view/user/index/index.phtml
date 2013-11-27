@@ -4,7 +4,7 @@
     if(!empty($this->positions) && is_array($this->positions)) {
         foreach($this->positions as $p) { 
             if($p->isactive == 1) { ?>
-            <div style="border:#00a9e8 solid thin;width: 320px;height: 240px;display: inline-block;margin:5px;padding:5px" disabled="disabled">
+            <div class="videotile">
                 <h4><?php echo $p->work_name;?></h4>        
             <?php
                 $file = './public/uploads/admin/'.$p->work_video_list;
@@ -20,15 +20,22 @@
                     if(in_array($fileext, array('mp4','ogv','webm','flv'))) {
                         // Display video tag
                         //var_dump($p);
-                    ?>   
-                        <video height="160" width="240" id="video<?php echo $p->id;?>">
-                            <source src="<?php echo $this->basePath().'/uploads/admin/'.$p->work_video_list;?>" type="<?php echo $mimetypes[$fileext];?>">                    
-                        </video>
+                    ?>
+                        <div id="videotile<?php echo $p->id;?>">
+                            <?php if($p->work_rate == 1) { ?>
+                                <video height="160" width="240" id="video<?php echo $p->id;?>" controls>
+                            <?php } else { ?>                                 
+                                 <video height="160" width="240" id="video<?php echo $p->id;?>">
+                            <?php } ?>
+                                <source src="<?php echo $this->basePath().'/uploads/admin/'.$p->work_video_list;?>" type="<?php echo $mimetypes[$fileext];?>">                    
+                            </video>
+                        </div>
+                        <br/>
                         <?php if($p->work_rate == 1) { ?>
-                            <input type="button" class="playVideo" id="<?php echo $p->id;?>" value="Play"/>
-                            <input type="hidden" id="play-status<?php echo $p->id;?>" value="0" />
-                        <?php } ?>
-                        <br>
+                                <a href="#" id="<?php echo $p->id;?>" class="play-popup">View InPopup</a>
+<!--                            <input type="button" class="playVideo" id="<?php echo $p->id;?>" value="Play"/>
+                            <input type="hidden" id="play-status<?php echo $p->id;?>" value="0" />-->
+                        <?php } ?>                        
                     <?php  
                     }
                     else {

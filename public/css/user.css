@@ -1,0 +1,28 @@
+/*
+* User module specific styles
+* Created on : Nov 27, 2013, 5:21:15 PM
+* Author     : sobin
+*/
+
+/* Video tile*/
+.videotile {
+    border:#00a9e8 solid thin;
+    width: 320px;height: 260px;
+    display: inline-block;
+    margin:5px;
+    padding:5px
+}
+
+/* popup to show video */
+.videopopup {
+    position: absolute;
+    z-index: 99999;
+    width:auto;
+    height: auto;
+    top:200px;
+    margin: 0 auto;
+    display:none;
+    background: #c8e5bc;
+    padding: 10px;
+}
+
