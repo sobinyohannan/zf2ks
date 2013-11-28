@@ -10,6 +10,8 @@ namespace Auth\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
+use Zend\InputFilter\Input;
+use Zend\InputFilter\InputFilter;
 
 Class LoginForm extends Form
 {

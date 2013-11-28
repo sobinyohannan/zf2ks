@@ -9,6 +9,8 @@ namespace User\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use User\Form\RegisterForm;
+use User\Model\User;
 
 class IndexController extends AbstractActionController
 {
@@ -34,5 +36,32 @@ class IndexController extends AbstractActionController
         return new ViewModel(array(
             'positions' => $positions
         ));
+    }
+    
+    /*
+     * @Method      : User registration
+     * Author       : Sobin
+     * Date         : 28 Nov 2013
+     * @Params      : None
+     */
+    public function registerAction() {
+        
+        $form = new RegisterForm();
+        $form->get('submit')->setValue('Save');
+        // Handle form submit
+        $request = $this->getRequest();
+        if($request->isPost()) {
+            //$users = $this->getServiceLocator()->get('User\Model\UserTable')->fetchAll();
+            //var_dump($request->getPost());
+            $data = (array) $request->getPost();            
+            $user = new User();
+            $user->exchangeArray($data);            
+            $this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user);
+            
+        }
+        $view = new ViewModel(array(
+            'form' => $form,
+        ));
+        return $view;
     }
 }
