@@ -20,6 +20,10 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
+        // Redirect if user not logged in
+        if(!$this->getServiceLocator()->get('AuthServiceUser')->hasIdentity()) {
+            $this->redirect()->toRoute('auth',array('action' => 'login'));
+        }
         $this->layout()->auth = $this->getServiceLocator()->get('AuthServiceUser')->hasIdentity();
         $this->layout()->logged_in_as = $this->getServiceLocator()->get('AuthServiceUser')->getIdentity();
         

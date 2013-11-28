@@ -46,11 +46,14 @@ $(function(){
      * Handle Play in popup link click     * 
      */
     $('.play-popup').click(function(){
-        var id = $(this).attr('id');
+        var id = $(this).attr('id');        
         var content = $('#videotile'+id).html();        
         //$('.videopopup').html(content);
-        $('.videopopup').colorbox({html:content});
-        $('.videopopup').show();
+        $(this).colorbox({rel:'play-popup',html:content,width:'30%',height:'60%'},function(){            
+            $('#colorbox').find('#video'+id).width('90%'); 
+            $('#colorbox').find('#video'+id).height('90%');            
+        });               
+        
     });
 });
 
