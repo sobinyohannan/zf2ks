@@ -13,6 +13,9 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\InputFilter\Factory as InputFactory;
 
+use Zend\Captcha;
+use Zend\Captcha\Image;
+
 Class User implements InputFilterAwareInterface {
     
     public $user_id;

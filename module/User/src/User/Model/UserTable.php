@@ -40,11 +40,18 @@ Class UserTable {
      * @param   : User data object
      */
     public function saveUser($user) {
-        $data = (array) $user;      
-        var_dump($user);
+        $data = (array) $user;              
         $id = (int)$user->user_id;
         if($id == 0) {
-            $this->tableGateway->insert($data);
+            $result = $this->tableGateway->insert($data);
+            if($result == 1) {
+                return TRUE;
+            }
+            else {
+                return FALSE;
+            }
+                
+            
         }
         /*else {
             if($this->getPositionInfo($id)) {

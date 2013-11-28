@@ -1,17 +1,23 @@
 <p> User Registration </p>
 <?php
-    
-    $form = $this->form;    
-    $form->setAttribute('action',$this->url('user',array('action' => 'register')));
-    $form->prepare();
-    //var_dump($form->get('id'));
-    echo $this->form()->openTag($form);
-    echo $this->formRow($form->get('user_id'));echo '<br/>';
-    echo $this->formRow($form->get('user_first_name'));echo '<br/>';
-    echo $this->formRow($form->get('user_surname'));echo '<br/>';
-    echo $this->formRow($form->get('user_email'));echo '<br/>';
-    echo $this->formRow($form->get('user_password'));echo '<br/>';
-    echo $this->formSubmit($form->get('submit'));echo '<br/>';
-    echo $this->form()->closeTag($form);
+    if($this->message == '') {
+        
+        $form = $this->form;    
+        $form->setAttribute('action',$this->url('user',array('action' => 'register')));
+        $form->prepare();
+        //var_dump($form->get('id'));
+        echo $this->form()->openTag($form);
+        echo $this->formRow($form->get('user_id'));echo '<br/>';
+        echo $this->formRow($form->get('user_first_name'));echo '<br/>';
+        echo $this->formRow($form->get('user_surname'));echo '<br/>';
+        echo $this->formRow($form->get('user_email'));echo '<br/>';
+        echo $this->formRow($form->get('user_password'));echo '<br/>';
+        echo $this->formRow($form->get('captcha'));echo '<br/>';
+        echo $this->formSubmit($form->get('submit'));echo '<br/>';
+        echo $this->form()->closeTag($form);
+    }
+    else {
+        echo $this->message;
+    }
     
 ?>

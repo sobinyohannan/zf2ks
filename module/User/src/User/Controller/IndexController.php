@@ -48,19 +48,24 @@ class IndexController extends AbstractActionController
         
         $form = new RegisterForm();
         $form->get('submit')->setValue('Save');
+        $messages = '';
         // Handle form submit
         $request = $this->getRequest();
-        if($request->isPost()) {
-            //$users = $this->getServiceLocator()->get('User\Model\UserTable')->fetchAll();
-            //var_dump($request->getPost());
+        if($request->isPost()) {            
             $data = (array) $request->getPost();            
             $user = new User();
             $user->exchangeArray($data);            
-            $this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user);
+            if($this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user) == TRUE) {
+                $messages = 'Successfully Saved';
+            }
+            else {
+                $messages = 'The submitted data not saved';
+            }
             
-        }
+        }        
         $view = new ViewModel(array(
             'form' => $form,
+            'message' => $messages,
         ));
         return $view;
     }

@@ -12,6 +12,8 @@ use Zend\Form\Form;
 use Zend\Form\Element;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
+use Zend\Captcha;
+use Zend\Captcha\Dumb;
 
 Class RegisterForm extends Form {
     
@@ -58,7 +60,10 @@ Class RegisterForm extends Form {
         $password->setAttributes(array(
             'type' => 'password'
         ));
-        
+        //captcha
+        $captcha = new Element\Captcha('captcha');
+        $captcha->setCaptcha(new Captcha\Dumb())
+            ->setLabel('Please verify you are human');
         // Submit
         $send = new Element('submit');
         $send->setValue('Submit');
@@ -69,7 +74,8 @@ Class RegisterForm extends Form {
         $this->add($first_name);
         $this->add($sur_name);
         $this->add($user_email);
-        $this->add($password);  
+        $this->add($password); 
+        $this->add($captcha);
         $this->add($send);
         
     }
