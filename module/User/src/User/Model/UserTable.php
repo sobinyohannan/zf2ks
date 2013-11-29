@@ -40,10 +40,11 @@ Class UserTable {
      * @param   : User data object
      */
     public function saveUser($user) {
-        $data = (array) $user;              
+        $data = (array) $user;
+        unset($data['inputFilter']);        
         $id = (int)$user->user_id;
-        if($id == 0) {
-            $result = $this->tableGateway->insert($data);
+        if($id == 0) {            
+            $result = $this->tableGateway->insert($data);            
             if($result == 1) {
                 return TRUE;
             }

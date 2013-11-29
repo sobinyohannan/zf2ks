@@ -14,6 +14,7 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Captcha;
 use Zend\Captcha\Dumb;
+use Zend\Captcha\Image;
 
 Class RegisterForm extends Form {
     
@@ -59,11 +60,25 @@ Class RegisterForm extends Form {
         $password->setLabel('Password');
         $password->setAttributes(array(
             'type' => 'password'
-        ));
+        ));        
+        // Re-enter password
+        $repassword = new Element('repassword');
+        $repassword->setLabel('Reenter Password');
+        $repassword->setAttributes(array(
+            'type' => 'password'
+        ));           
         //captcha
-        $captcha = new Element\Captcha('captcha');
-        $captcha->setCaptcha(new Captcha\Dumb())
-            ->setLabel('Please verify you are human');
+        $captcha = new Element\Captcha('captcha');        
+        $cap = new Captcha\Image();        
+        $cap->setFont('./public/fonts/SourceSansPro-Light.otf'); 
+        $cap->setDotNoiseLevel(30);
+        $cap->setLineNoiseLevel(1);
+        $cap->setFontSize(25);
+        $cap->setSuffix("Reg");
+        $cap->setWidth(250);
+        $cap->setHeight(100);
+        $captcha->setCaptcha($cap)->setLabel('Please verify you are human');
+        
         // Submit
         $send = new Element('submit');
         $send->setValue('Submit');
@@ -74,7 +89,8 @@ Class RegisterForm extends Form {
         $this->add($first_name);
         $this->add($sur_name);
         $this->add($user_email);
-        $this->add($password); 
+        $this->add($password);
+        $this->add($repassword);
         $this->add($captcha);
         $this->add($send);
         

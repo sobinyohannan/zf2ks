@@ -24,12 +24,14 @@ Class User implements InputFilterAwareInterface {
     public $user_email;
     public $user_username;
     public $user_password;
+    public $inputFilter;
     
     /*
      * @Method      : Exchange Data
      * Author       : Sobin     * 
      */
     public function exchangeArray($data) {
+        
         $this->user_id = (isset($data['user_id']))?$data['user_id']:NULL;
         $this->user_first_name = (isset($data['user_first_name']))?$data['user_first_name']:NULL;
         $this->user_surname = (isset($data['user_surname']))?$data['user_surname']:NULL;
@@ -52,6 +54,88 @@ Class User implements InputFilterAwareInterface {
      */
     public function getInputFilter() {
         
+        if(!$this->inputFilter) {
+            
+            $filter = new InputFilter();
+            $factory = new InputFactory();
+            
+            // Create validation rules
+            // First name
+            $filter->add($factory->createInput(array(
+                    'name' => 'user_first_name',
+                    'required' => true,
+                    'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim')
+                    ),
+                    'validators' => array(
+                        array(
+                            'name' => 'StringLength',
+                            'options' => array(
+                                'min' => 3,
+                                'max' => 50,
+                            )
+                        )
+                    )
+            )));
+            
+            //Surname
+            $filter->add($factory->createInput(array(
+                    'name' => 'user_surname',
+                    'required' => true,
+                    'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim')
+                    ),
+                    'validators' => array(
+                        array(
+                            'name' => 'StringLength',
+                            'options' => array(
+                                'min' => 3,
+                                'max' => 25
+                            )
+                        )
+                    )
+            )));
+            // Email
+            $filter->add($factory->createInput(array(
+                    'name' => 'user_email',
+                    'required' => true,
+                    'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim')
+                    ),
+                    'validators' => array(                        
+                        new \Zend\Validator\EmailAddress(),
+                    )                    
+            )));
+            // Password validation
+            $filter->add($factory->createInput(array(
+                    'name' => 'user_password',
+                    'required' => true,
+                    'validators' => array(
+                        new \Zend\Validator\Identical('repassword'),
+                    )
+            )));
+            // Retype Password validation
+            $filter->add($factory->createInput(array(
+                    'name' => 'repassword',
+                    'required' => true,
+                    'validators' => array(
+                        new \Zend\Validator\NotEmpty(),
+                    )
+            )));
+            /*// Captcha
+            $this->inputFilter->add($factory->createInput(array(
+                    'name' => 'captcha',
+                    'required' => true,
+                    'validators' => array(                        
+                        new \Zend\Validator\captcha(),
+                    )                    
+            )));*/
+            $this->inputFilter = $filter;
+        }
+        return $this->inputFilter;
     }
     
     /*

@@ -53,13 +53,20 @@ class IndexController extends AbstractActionController
         $request = $this->getRequest();
         if($request->isPost()) {            
             $data = (array) $request->getPost();            
-            $user = new User();
-            $user->exchangeArray($data);            
-            if($this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user) == TRUE) {
-                $messages = 'Successfully Saved';
-            }
-            else {
-                $messages = 'The submitted data not saved';
+            $user = new User();            
+            $form->setData($data);
+            $form->setInputFilter($user->getInputFilter());            
+            if($form->isValid()) {
+                $data['user_password'] = md5($data['user_password']);
+                $user->exchangeArray($data);   
+                if($this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user) == TRUE) {
+                    // Delete the captcha Image after check
+                    array_map('unlink', glob("./public/images/captcha/*"));
+                    $messages = 'Successfully Saved';
+                }
+                else {
+                    $messages = 'The submitted data not saved';
+                }
             }
             
         }        
