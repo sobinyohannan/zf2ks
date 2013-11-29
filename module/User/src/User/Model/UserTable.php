@@ -44,12 +44,13 @@ Class UserTable {
         unset($data['inputFilter']);        
         $id = (int)$user->user_id;
         if($id == 0) {            
-            $result = $this->tableGateway->insert($data);            
+            $result = $this->tableGateway->insert($data);
+            $id = $this->tableGateway->lastInsertValue;
             if($result == 1) {
-                return TRUE;
+                return array('status' => TRUE, 'id' => $id);
             }
             else {
-                return FALSE;
+                return array('status' => FALSE);
             }
                 
             

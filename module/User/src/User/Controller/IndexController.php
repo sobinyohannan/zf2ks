@@ -39,9 +39,9 @@ class IndexController extends AbstractActionController
     }
     
     /*
-     * @Method      : User registration
-     * Author       : Sobin
-     * Date         : 28 Nov 2013
+     * User registration
+     * @author       : Sobin
+     * @date         : 28 Nov 2013
      * @Params      : None
      */
     public function registerAction() {
@@ -58,10 +58,34 @@ class IndexController extends AbstractActionController
             $form->setInputFilter($user->getInputFilter());            
             if($form->isValid()) {
                 $data['user_password'] = md5($data['user_password']);
-                $user->exchangeArray($data);   
-                if($this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user) == TRUE) {
-                    // Delete the captcha Image after check
+                $user->exchangeArray($data); 
+                $result = $this->getServiceLocator()->get('User\Model\UserTable')->saveUser($user);
+                if(isset($result['status']) && ($result['status'] == TRUE)) {
+                    // Delete the captcha Images after Successful save
                     array_map('unlink', glob("./public/images/captcha/*"));
+                    $id = $result['id'];
+                    $activation_code = mt_rand();
+                    // Save activation code to its table
+                    $adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+                    $sql = new \Zend\Db\Sql\Sql($adapter);
+                    $insert = $sql->insert();
+                    $insert->into('ks_user_activation_codes');
+                    $insert->values(array(
+                        'user_id' => $id,
+                        'code' => $activation_code
+                    ));
+
+                    $statement = $sql->prepareStatementForSqlObject($insert);
+                    $results = $statement->execute();
+                    // Prepare the Activation Mail
+                    $url = $this->url()->fromRoute('user',array('action' => 'activateUser',array('key' => $activation_code, 'email' => $user->user_email)));                    
+                    $to = array(
+                        'name' => $user->user_first_name.' '.$user->user_surname,
+                        'email' => $user->user_email,
+                    );
+                    $subject = 'KS: User Activation';
+                    $message = 'To activate the account visit the page '.$url;
+                    $this->sendEmail($to, $subject, $message);
                     $messages = 'Successfully Saved';
                 }
                 else {
@@ -75,5 +99,48 @@ class IndexController extends AbstractActionController
             'message' => $messages,
         ));
         return $view;
+    }
+    
+    /*
+     * Send Email To The user
+     * @author  : Sobin
+     * @date    : 29 Nov 2013
+     * @params  : to, subject, message
+     * @return  : Boolean
+     */
+    public function sendEmail($to, $subject, $message) {
+        /*$mail = new \Zend\Mail\Message();
+        $mail->setBody($message);
+        //$mail->setFrom('Freeaqingme@example.org', 'Sender\'s name');
+        $mail->addTo($to['email'], $to['name']);
+        $mail->setSubject($subject);
+
+        $transport = new \Zend\Mail\Transport\Sendmail();
+        if($transport->send($mail)) {
+            return TRUE;
+        }
+        else {
+            return FALSE;
+        }*/
+        
+        $message = new \Zend\Mail\Message();
+        $message->addTo($to)
+                ->addFrom('sobin87@gmail.com')
+                ->setSubject($subject)
+                ->setBody($message);
+
+        // Setup SMTP transport using LOGIN authentication
+        $transport = new \Zend\Mail\Transport\Smtp();
+        $options   = new \Zend\Mail\Transport\SmtpOptions(array(
+            'name'              => 'localhost.localdomain',
+            'host'              => '127.0.0.1',
+            'connection_class'  => 'login',
+            'connection_config' => array(
+                'username' => 'user',
+                'password' => 'pass',
+            ),
+        ));
+        $transport->setOptions($options);
+        $transport->send($message);
     }
 }
