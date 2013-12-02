@@ -1,0 +1,18 @@
+<?php
+/*
+ * Template for activateUserAction() In User\IndexController
+ * @author  : Sobin
+ * @date    : 2 Dec 2013 
+ */
+?>
+<div>
+
+    <?php if(isset($this->status) && ($this->status == true)) { ?>
+            <h3>Success</h3>
+            <p><?php echo $this->message;?></p>
+    <?php } else { ?>
+            <h3>Failure</h3>
+            <p><?php echo $this->message;?></p>
+    <?php } ?>
+    
+</div>

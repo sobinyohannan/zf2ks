@@ -64,5 +64,26 @@ Class UserTable {
             }
         }*/
     }
+    
+    /*
+     * Activate user
+     * @author     : Sobin
+     * @date       : 2 Dec 2013
+     * @param      : $user_id
+     * @return     : True or False 
+     */
+    public function activateUser($user_id) {
+        $data = array(
+          'mail_status' => 1  
+        );
+        $result = $this->tableGateway->update($data,array('user_id' => $user_id));
+        if($result) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        
+    }
 }
 

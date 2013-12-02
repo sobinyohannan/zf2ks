@@ -21,6 +21,21 @@ return array(
                      'defaults' => array(
                          'controller' => 'User\Controller\Index',
                          'action'     => 'index',
+                     ),                     
+                 ),
+             ),
+            
+            // Activation of user
+            'activate' => array(
+                 'type'    => 'segment',
+                 'options' => array(
+                     'route'    => '/user/activateUser/:key/:id',                     
+                     'constraints' => array(
+                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',                         
+                     ),
+                     'defaults' => array(
+                         'controller' => 'User\Controller\Index',
+                         'action'     => 'activateUser',
                      ),
                  ),
              ),
