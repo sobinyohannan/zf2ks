@@ -20,6 +20,7 @@ use Zend\Validator\File\Size;
 
 class IndexController extends AbstractActionController
 {
+    
     /*
      *  Get Positions Table
      *  Author  : Sobin
@@ -51,9 +52,13 @@ class IndexController extends AbstractActionController
      *  Author  : Sobin
      */
     public function indexAction()
-    {
+    {   
         $auth = $this->getAuthIdentity();
-        $this->layout()->auth = $auth;
+        /*if (! $this->getServiceLocator()->get('AuthService')->hasIdentity()){
+            return $this->redirect()->toRoute('admin',array('action' => 'login'));
+        } 
+        $auth = $this->getServiceLocator()->get('AuthService')->hasIdentity();*/
+        $this->layout()->auth = $auth;        
         return new ViewModel();
     }
     
